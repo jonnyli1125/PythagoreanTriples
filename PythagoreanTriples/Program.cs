@@ -45,7 +45,7 @@ namespace PythagoreanTriples
             {
                 int maxcount, count = 0;
                 do Console.Write("Number of Pythagorean triples to generate: ");
-                while (!int.TryParse(Console.ReadLine(), out maxcount));
+                while (!int.TryParse(Console.ReadLine(), out maxcount) || maxcount <= 0);
                 Console.Write("Write to file? If yes, enter a file path, otherwise leave empty: ");
                 var path = Console.ReadLine().Trim();
                 var verbose = true;
