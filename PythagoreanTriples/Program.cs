@@ -31,9 +31,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Numerics;
-using System.Threading.Tasks;
 
 namespace PythagoreanTriples
 {
@@ -43,9 +41,11 @@ namespace PythagoreanTriples
         {
             while (true)
             {
-                int maxcount, count = 0;
-                do Console.Write("Number of Pythagorean triples to generate: ");
-                while (!int.TryParse(Console.ReadLine(), out maxcount) || maxcount <= 0);
+                int count = 0, mmax = 0, nmax = 0;
+                do Console.Write("M maximum: ");
+                while (!int.TryParse(Console.ReadLine(), out mmax) || mmax <= 0);
+                do Console.Write("N maximum: ");
+                while (!int.TryParse(Console.ReadLine(), out nmax) || nmax <= 0);
                 Console.Write("Write to file? If yes, enter a file path, otherwise leave empty: ");
                 var path = Console.ReadLine().Trim();
                 var verbose = true;
@@ -55,10 +55,9 @@ namespace PythagoreanTriples
                     verbose = Console.ReadLine()[0].ToString().ToLower().Trim() == "y";
                 }
                 var triples = new List<string>();
-                for (BigInteger i = 1; ; i++)
+                for (BigInteger i = 1; i <= mmax; i++)
                 {
-                    var br = false;
-                    for (BigInteger j = 1; ; j++)
+                    for (BigInteger j = 1; j <= nmax; j++)
                     {
                         if (i == j) continue;
                         BigInteger i2 = i * i, j2 = j * j, a = BigInteger.Abs(i2 - j2), b = BigInteger.Abs(2 * i * j), c = BigInteger.Abs(i2 + j2);
@@ -68,10 +67,8 @@ namespace PythagoreanTriples
                             if (verbose) Console.WriteLine(triple);
                             triples.Add(triple);
                             count++;
-                            if (count >= maxcount) { br = true; break; }
                         }
                     }
-                    if (br) break;
                 }
                 Console.WriteLine("Done, generated " + count + " Pythagorean triples.");
                 if (!String.IsNullOrEmpty(path)) File.WriteAllLines(path, triples);
